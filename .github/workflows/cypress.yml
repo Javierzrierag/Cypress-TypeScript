@@ -41,4 +41,9 @@ jobs:
           API_URL: ${{ secrets.API_URL }}
           USER: ${{ secrets.USER }}
           PASSWORD: ${{ secrets.PASSWORD }}    
-      
+
+      - name: Validate secrets
+        run: |
+          if [ -z "$USER" ]; then echo "USER is empty"; exit 1; fi
+          if [ -z "$PASSWORD" ]; then echo "PASSWORD is empty"; exit 1; fi
+          if [ -z "$API_URL" ]; then echo "API_URL is empty"; exit 1; fi
