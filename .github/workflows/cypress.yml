@@ -24,3 +24,21 @@ jobs:
 
       - name: Run Cypress tests
         run: npx cypress run
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          API_URL: ${{ secrets.API_URL }}
+          USER: ${{ secrets.USER }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+      
+      - name: debug env
+        run: |
+          echo "BASE_URL: $BASE_URL"
+          echo "API_URL: $API_URL"
+          echo "USER: $USER"
+          echo "PASSWORD: $PASSWORD"
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          API_URL: ${{ secrets.API_URL }}
+          USER: ${{ secrets.USER }}
+          PASSWORD: ${{ secrets.PASSWORD }}    
+      

@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 beforeEach(() => {
-  //cy.visit('/login')
+ 
 })
 
 describe('Login Tests', () => {
