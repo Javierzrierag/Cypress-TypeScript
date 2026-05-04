@@ -1,14 +1,18 @@
 /// <reference types="cypress" />
 
+beforeEach(() => {
+  //cy.visit('/login')
+})
+
 describe('Login Tests', () => {
 
   it('Login con UI', () => {
-    cy.loginUI('admin', 'password123')
+    cy.loginUI(Cypress.env('USER'), Cypress.env('PASSWORD'))
     cy.contains('The Dummy Site').should('be.visible')
   })
 
   it('Login con API (sin UI)', () => {
-    cy.loginAPI('admin', 'password123')
+    cy.loginAPI(Cypress.env('USER'), Cypress.env('PASSWORD'))
     cy.visit('/dashboard')
     cy.contains('The Dummy Site').should('be.visible')
   })

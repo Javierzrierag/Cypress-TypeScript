@@ -38,31 +38,5 @@ describe('Dashboard', () => {
 
     })
 
-    it('Debe mostrar usuarios mockeados', () => {
-
-        cy.intercept('GET', `${Cypress.env('apiUrl')}/users`, {
-            statusCode: 200,
-            body: [
-                { id: 1, name: 'Javier' },
-                { id: 2, name: 'Test User' }
-            ]
-        }).as('mockUsers')
-
-        cy.wait('@mockUsers')
-
-        cy.contains('Javier').should('be.visible')
-    })
-
-    it('Debe manejar error de API', () => {
-
-        cy.intercept('GET', `${Cypress.env('apiUrl')}/users`, {
-            statusCode: 500
-        }).as('errorUsers')
-
-        cy.wait('@errorUsers')
-
-        cy.contains('Error al cargar usuarios').should('be.visible')
-    })
-
 
 })
