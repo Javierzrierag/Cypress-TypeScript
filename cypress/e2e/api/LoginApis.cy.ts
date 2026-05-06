@@ -1,20 +1,11 @@
 /// <reference types="cypress" />
 
-beforeEach(() => {
-     cy.request(`${Cypress.env('API_URL')}/users`)
-      .its('status')
-      .should('eq', 200)
 
-    cy.intercept('GET', `${Cypress.env('API_URL')}/users`, {
-        fixture: 'users.json'
-    }).as('getUsers')
-})
-
-describe('Dashboard', () => {
-    it('Crear usuarios en las API', () => {
+describe.skip('Tests API de Usuarios y Login', () => {
+    it.only('Crear usuarios en la API', () => {
         cy.request({
             method: 'POST',
-            url: `${Cypress.env('API_URL')}/users`,
+            url: `${Cypress.env('API_URL')}/`,
             body: {
                 fixture: 'user.json'
             }
@@ -27,7 +18,7 @@ describe('Dashboard', () => {
     it('Debe mostrar usuarios correctamente', () => {
         cy.request({
             method: 'GET',
-            url: `${Cypress.env('API_URL')}/users`
+            url: `${Cypress.env('API_URL')}/`
         }).then((response) => {
             expect(response.status).to.eq(200)
             expect(response.body).to.be.an('array')

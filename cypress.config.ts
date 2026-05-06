@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 export default defineConfig({
   e2e: {
-    baseUrl: process.env.BASE_URL || 'https://thedummysite.com/',
+    baseUrl: process.env.BASE_URL || 'https://sauce-demo.myshopify.com/',
     setupNodeEvents(on, config) {
       // tasks (DB, etc.) van acá después
       config.env.USER = process.env.USER || ''
@@ -17,7 +17,7 @@ export default defineConfig({
       return config
     },
     env: {
-      API_URL: process.env.API_URL || 'https://jsonplaceholder.typicode.com',
+      API_URL: process.env.API_URL || 'https://sauce-demo.myshopify.com/',
       USER: process.env.USERAPI || '',
       PASSWORD: process.env.PASSWORDAPI || ''
     },

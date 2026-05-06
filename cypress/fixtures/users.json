@@ -1,4 +1,8 @@
 [
-  { "id": 1, "name": "Javier" },
-  { "id": 2, "name": "QA Automation" }
+  {
+    "customer[first_name]": "Javier",
+    "customer[last_name]": "QA",
+    "customer[email]": "javier.qa@example.com",
+    "customer[password]": "password123"
+  }
 ]

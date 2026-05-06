@@ -24,17 +24,53 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+Cypress.Commands.add('loginSession', (username: string, password: string) => {
+
+  cy.session([username, password], () => {
+
+    cy.request({
+      method: 'POST',
+      url: '/',
+      form: true, // 👈 CLAVE para forms tradicionales
+      body: {
+        username,
+        password
+      }
+    })
+
+    // 👇 Verificamos que la cookie exista
+    cy.getCookie('connect.sid').should('exist')
+
+  }, {
+    validate() {
+      cy.getCookie('connect.sid').should('exist')
+    },
+    cacheAcrossSpecs: true
+  })
+
+})
+
+
 Cypress.Commands.add('loginUI', (username: string, password: string) => {
-  cy.visit('/login')
-  cy.get('#username').type(username)
-  cy.get('#password').type(password)
-  cy.get('.btn-submit').click()
+
+  cy.visit('/')
+
+  cy.get('#customer_email')
+    .clear()
+    .type(username)
+    .should('have.value', username)
+
+  cy.get('#customer_password')
+    .clear()
+    .type(password, { delay: 20 })
+    .should('have.value', password)
+
 })
 
 Cypress.Commands.add('loginAPI', (username: string, password: string) => {
   cy.request({
     method: 'POST',
-    url: '/login',
+    url: '/',
     body: {
       username,
       password
@@ -46,8 +82,3 @@ Cypress.Commands.add('loginAPI', (username: string, password: string) => {
     })
 })
 
-Cypress.Commands.add('loginSession', (username: string, password: string) => {
-  cy.session([username, password], () => {
-    cy.loginAPI(username, password)
-  })
-})
