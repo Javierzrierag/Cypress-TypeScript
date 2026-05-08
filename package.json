@@ -4,17 +4,31 @@
   "description": "This project will be created just for self learning",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run clean:reports && cypress run",
     "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "cy:run": "cypress run",
+    "report:merge": "npx mochawesome-merge cypress/reports/*.json > cypress/reports/report.json",
+    "report:generate": "npx marge cypress/reports/report.json -f report -o cypress/reports",
+    "test:report": "npm run cy:run && npm run report:merge && npm run report:generate",
+    "clean:reports": "rimraf cypress/reports"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "cypress",
+    "typescript",
+    "automation",
+    "qa"
+  ],
+  "author": "Javier Riera",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^25.6.0",
     "cypress": "^15.14.2",
+    "cypress-mochawesome-reporter": "^4.0.2",
     "dotenv": "^17.4.2",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^5.1.1",
+    "mochawesome-report-generator": "^6.3.2",
+    "rimraf": "^6.1.3",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "^5.4.5"

@@ -23,6 +23,7 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import { LoginPage } from './pages/LoginPage'
 
 Cypress.Commands.add('loginSession', (username: string, password: string) => {
 
@@ -55,15 +56,10 @@ Cypress.Commands.add('loginUI', (username: string, password: string) => {
 
   cy.visit('/')
 
-  cy.get('#customer_email')
-    .clear()
-    .type(username)
-    .should('have.value', username)
+  const loginPage = new LoginPage()
 
-  cy.get('#customer_password')
-    .clear()
-    .type(password, { delay: 20 })
-    .should('have.value', password)
+  loginPage.typeUsername(username)
+  loginPage.typePassword(password)
 
 })
 
@@ -77,7 +73,7 @@ Cypress.Commands.add('loginAPI', (username: string, password: string) => {
     }
   })
     .then((res) => {
-        expect(res.status).to.eq(200)
+      expect(res.status).to.eq(200)
       window.localStorage.setItem('token', res.body.token)
     })
 })

@@ -1,32 +1,40 @@
 /// <reference types="cypress" />
+import { LoginPage } from '../../support/pages/LoginPage'
 
-describe.skip('Login Tests', () => {
+describe('Login Tests', () => {
 
-  before(() => {
-  Cypress.session.clearAllSavedSessions()
-})
+  const loginPage = new LoginPage()
 
-beforeEach(() => {
- cy.loginUI(Cypress.env('USER'), 
- Cypress.env('PASSWORD'))
-})
-
-  it('Error de login', () => {
+  it('Login Error wrong credentials', () => {
     cy.visit('/')
-    cy.get('#username').type('wronguser').should('have.value', 'wronguser')
-    cy.get('#password').type('wrongpass').should('have.value', 'wrongpass')
-    cy.get('button.toggle-pw').click()
-    cy.wait(2000) // Espera para que el cambio de tipo de input se refleje
-    cy.get('button[type="submit"]').should('be.visible').click()
-    cy.contains('Invalid username or password.').should('be.visible')
+    loginPage.typeUsername('wronguser')
+    loginPage.typePassword('wrongpass')
+    loginPage.submit()
+    cy.contains('Epic sadface: Username and password do not match any user in this service').should('be.visible')
   })
 
-  it('Login con UI exitoso', () => {
+
+  it('Login Error no password', () => {
     cy.visit('/')
-      cy.get('button[type="submit"]')
-    .should('be.visible')
-    .click()
-    cy.contains('Test User').should('be.visible')
+    loginPage.typeUsername(Cypress.env('USER'))
+    loginPage.submit()
+    cy.contains('Epic sadface: Password is required').should('be.visible')
+  })
+
+  it('Login Error no user', () => {
+    cy.visit('/')
+    loginPage.typePassword(Cypress.env('PASSWORD'))
+    loginPage.submit()
+    cy.contains('Epic sadface: Username is required').should('be.visible')
+  })
+
+
+  it('Login UI successful', () => {
+    cy.visit('/')
+    loginPage.typeUsername(Cypress.env('USER'))
+    loginPage.typePassword(Cypress.env('PASSWORD'))
+    loginPage.submit()
+    cy.contains('Products').should('be.visible')
   })
 
 })

@@ -6,23 +6,59 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export default defineConfig({
+
+  reporter: 'cypress-mochawesome-reporter',
+
+  retries: {
+    runMode: 2,
+    openMode: 0
+  },
+
+  viewportWidth: 1280,
+  viewportHeight: 720,
+
+  reporterOptions: {
+    html: true,
+    json: true,
+    charts: true,
+    reportPageTitle: 'QA Automation Report',
+    embeddedScreenshots: true,
+    inlineAssets: true,
+    saveAllAttempts: false
+  },
+
+  video: true,
+
+  screenshotsFolder: 'cypress/screenshots',
+
+  videosFolder: 'cypress/videos',
+
   e2e: {
-    baseUrl: process.env.BASE_URL || 'https://sauce-demo.myshopify.com/',
+
+    baseUrl:
+      process.env.BASE_URL ||
+      'https://sauce-demo.myshopify.com/',
+
+    env: {
+
+      API_URL:
+        process.env.API_URL || '',
+
+      USER:
+        process.env.USER || '',
+
+      PASSWORD:
+        process.env.PASSWORD || ''
+
+    },
+
     setupNodeEvents(on, config) {
-      // tasks (DB, etc.) van acá después
-      config.env.USER = process.env.USER || ''
-      config.env.PASSWORD = process.env.PASSWORD || ''
-      config.env.API_URL = process.env.API_URL || ''
+
+      require('cypress-mochawesome-reporter/plugin')(on)
 
       return config
-    },
-    env: {
-      API_URL: process.env.API_URL || 'https://sauce-demo.myshopify.com/',
-      USER: process.env.USERAPI || '',
-      PASSWORD: process.env.PASSWORDAPI || ''
-    },
-    video: true,
-    screenshotsFolder: 'cypress/screenshots',
-    videosFolder: 'cypress/videos'
+    }
+
   }
+
 })

@@ -1,14 +1,21 @@
 export class LoginPage {
 
+
+  elements = {
+    usernameInput: () => cy.get('#user-name'),
+    passwordInput: () => cy.get('#password'),
+    loginButton: () => cy.get('#login-button')
+  }
+
   typeUsername(username: string) {
-    cy.get('#user-name').type(username)
+    this.elements.usernameInput().type(username)
   }
 
   typePassword(password: string) {
-    cy.get('#password').type(password)
+    this.elements.passwordInput().type(password)
   }
 
   submit() {
-    cy.get('#login-button').click()
+    this.elements.loginButton().click()
   }
 }
